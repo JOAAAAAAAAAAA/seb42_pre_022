@@ -174,7 +174,7 @@ function QuestionsList({ ele }) {
   return (
     <QLiContainer>
       <PostSummaryStats>
-        <div><span>0</span><span>votes</span></div>
+        <div><span>{ele.voteCount}</span><span>votes</span></div>
         <div className={ele.answerCount !== 0 ? "has-answer" : "null"}><span>{ele.answerCount}</span><span>answer</span></div>
         <div><span>{ele.viewCount}</span><span>views</span></div>
       </PostSummaryStats>

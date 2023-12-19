@@ -193,7 +193,7 @@ function ExpandableFilterform({isFilterOpen}) {
                 <fieldset>
                   <legend>Sorted by</legend>
                   <div><Checkbox><div><input type="radio" name="sort" id="newest" value="newest" onClick={setOptionHandler} defaultChecked={filter.newest}/></div><label htmlFor="newest">Newest</label></Checkbox></div>
-                  <div><Checkbox><div><input type="radio" name="sort" id="highestscore" value="highestscore" onClick={setOptionHandler} defaultChecked={filter.hignestscore}/></div><label htmlFor="highestscore">Highest score</label></Checkbox></div>
+                  <div><Checkbox><div><input type="radio" name="sort" id="highestscore" value="highestscore" onClick={setOptionHandler} defaultChecked={filter.hignestscore}/></div><label htmlFor="highestscore">Lowest score</label></Checkbox></div>
                 </fieldset>
               </div>
               <div>

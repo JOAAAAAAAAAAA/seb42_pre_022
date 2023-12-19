@@ -223,8 +223,9 @@ function Questions() {
   const [filterNsortedposts, setFilterNsortedposts] = useState([]);
   const getData = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/questions`)
-      let filtered = filteringposts(response.data.body.data,filter)
+      const response = await axios.get(`https://bead-iced-mammal.glitch.me/stackoverflow`)
+      console.log(response)
+      let filtered = filteringposts(response.data,filter)
       let sorted = sortingposts(filtered,filter)
       setFilterNsortedposts(sorted)
       dispatch(setTotalposts(filtered.length))
