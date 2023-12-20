@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch } from 'react-redux';
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, createBrowserRouter, RouterProvider } from "react-router-dom";
 import GlobalStyle from "./Styles/GlobalStyle";
-import Questions from "./Pages/Questions";
+import Questions, { questionsLoader } from "./Pages/Questions";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import Nav from "./Components/Nav";
@@ -21,7 +21,18 @@ import getUserInfo from "./util/getUserInfo";
 import ErrorPage from "./Pages/ErrorPage";
 import Tags from "./Pages/Tags";
 
-function App() {
+const router = createBrowserRouter([
+  { path: "*", 
+    Component: Root,
+    loader: questionsLoader, 
+  },
+]);
+
+export default function App() {
+  return <RouterProvider router={router} />;
+}
+
+function Root() {
   const { pathname } = useLocation();
   const dispatch = useDispatch()
   const { userInfo } = useSelector(state => state.loginInfoReducer);
@@ -73,5 +84,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

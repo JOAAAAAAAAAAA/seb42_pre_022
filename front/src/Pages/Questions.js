@@ -12,7 +12,7 @@ import PaginationLeft from "../Components/PaginationLeft";
 import PaginationRight from "../Components/PaginationRight";
 import { allquestions, filteringposts, sortingposts } from "../util/filteringposts";
 import { selectPage, setTotalposts } from "../Reducers/paginationReducer";
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import NoResult from "../Components/NoResult";
 
 
@@ -206,6 +206,10 @@ const ResultComment1 =styled.div`
   }
 `
 
+export const questionsLoader = async () => {
+  const response = await axios.get(`https://bead-iced-mammal.glitch.me/stackoverflow`)
+  return response.data
+}
 
 function Questions() {
   const filter = useSelector((state)=> state.filter);
@@ -220,26 +224,35 @@ function Questions() {
     dispatch(filteringBy(keyword))
     dispatch(selectPage(1))
   }
-  const [filterNsortedposts, setFilterNsortedposts] = useState([]);
-  const getData = async () => {
-    try {
-      const response = await axios.get(`https://bead-iced-mammal.glitch.me/stackoverflow`)
-      console.log(response)
-      let filtered = filteringposts(response.data,filter)
-      let sorted = sortingposts(filtered,filter)
-      setFilterNsortedposts(sorted)
-      dispatch(setTotalposts(filtered.length))
-      setFilterOpen(false)
-    } catch (err) {
-      console.log(err)
-    }
-  }
-  useEffect(() => {
-    getData()
-      },[filter])
+  const data = useLoaderData()
+  const refinedData = useMemo(() => {
+    const filtered = filteringposts(data,filter)
+    const sorted = sortingposts(filtered,filter)
+    dispatch(setTotalposts(filtered.length))
+    setFilterOpen(false)
+    return sorted
+  },[filter])
+
+
+  // const [filterNsortedposts, setFilterNsortedposts] = useState([]);
+  // const getData = async () => {
+  //   try {
+  //     const response = await axios.get(`https://bead-iced-mammal.glitch.me/stackoverflow`)
+  //     let filtered = filteringposts(response.data,filter)
+  //     let sorted = sortingposts(filtered,filter)
+  //     setFilterNsortedposts(sorted)
+  //     dispatch(setTotalposts(filtered.length))
+  //     setFilterOpen(false)
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // }
+  // useEffect(() => {
+  //   getData()
+  //     },[filter])
   const start=(pages.currentpage-1)*pages.pagesize
   const end=start+pages.pagesize
-  const onepage = filterNsortedposts.slice(start, end)
+  const onepage = refinedData.slice(start, end)
 
   return (
     <QuestionsContainer>
